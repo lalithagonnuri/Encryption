@@ -1,0 +1,51 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+
+import java.util.Scanner;
+
+public class StringEncryption {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the string: ");
+        String input = scanner.nextLine();
+        String encryptedString = encryptString(input);
+        System.out.println("Original String: " + input);
+        System.out.println("Encrypted String: " + encryptedString);
+    }
+
+    public static String encryptString(String s) {
+        int L = s.length();
+        int a = (int) Math.floor(Math.sqrt(L));
+        int b = (int) Math.ceil(Math.sqrt(L));
+
+        while (a * b < L) {
+            if (a < b) {
+                a++;
+            } else {
+                b++;
+            }
+        }
+
+        char[][] matrix = new char[a][b];
+
+        int k = 0;
+        for (int i = 0; i < a; i++) {
+            for (int j = 0; j < b; j++) {
+                if (k < L) {
+                    matrix[i][j] = s.charAt(k);
+                    k++;
+                }
+            }
+        }
+
+         StringBuilder encryptedString = new StringBuilder();
+        for (int j = 0; j < b; j++) {
+            for (int i = 0; i < a; i++) {
+                encryptedString.append(matrix[i][j]);
+            }
+        }
+
+        return encryptedString.toString();
+    }
+}
