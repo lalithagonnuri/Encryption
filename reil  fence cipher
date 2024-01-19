@@ -1,0 +1,66 @@
+import java.util.Scanner;
+
+public class RailFenceCipherEncryption {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input the plain-text message
+        System.out.print("Enter the plain-text message: ");
+        String plainText = scanner.nextLine();
+
+        // Input the key
+        System.out.print("Enter the key (number of rails): ");
+        int key = scanner.nextInt();
+
+        // Encrypt the message
+        String encryptedText = encryptRailFence(plainText, key);
+
+        // Output the results
+        System.out.println("Plain Text: " + plainText);
+        System.out.println("Encrypted Text: " + encryptedText);
+    }
+
+    public static String encryptRailFence(String plainText, int key) {
+        // Create an array to store characters in the zigzag pattern
+        char[][] railMatrix = new char[key][plainText.length()];
+
+        // Initialize the matrix with empty spaces
+        for (int i = 0; i < key; i++) {
+            for (int j = 0; j < plainText.length(); j++) {
+                railMatrix[i][j] = ' ';
+            }
+        }
+
+        // Populate the matrix with characters from the plain text
+        int row = 0;
+        boolean down = true;
+        for (int i = 0; i < plainText.length(); i++) {
+            railMatrix[row][i] = plainText.charAt(i);
+
+            if (row == key - 1) {
+                down = false;
+            } else if (row == 0) {
+                down = true;
+            }
+
+            if (down) {
+                row++;
+            } else {
+                row--;
+            }
+        }
+
+        // Read the matrix row by row to get the encrypted text
+        StringBuilder encryptedText = new StringBuilder();
+        for (int i = 0; i < key; i++) {
+            for (int j = 0; j < plainText.length(); j++) {
+                if (railMatrix[i][j] != ' ') {
+                    encryptedText.append(railMatrix[i][j]);
+                }
+            }
+        }
+
+        return encryptedText.toString();
+    }
+}
